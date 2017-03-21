@@ -50,6 +50,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController:UIViewController, onto primaryViewController:UIViewController) -> Bool {        
         return false
     }
+  
+    func splitViewController(_ svc: UISplitViewController, willChangeTo displayMode: UISplitViewControllerDisplayMode) {
+
+        // This is not ideal because it kind of just assumes the hierarchy, but this is the rough idea. The Split view knows when it changes and notifies it's descendants.
+        svc.childViewControllers.forEach { vc in
+            if let detail = vc.childViewControllers.first as? DetailViewController {
+                detail.collectionViewLayout.invalidateLayout()
+            }
+        }
+    }
 
 }
 
